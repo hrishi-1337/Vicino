@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "991825965583",
+    "firebase_url": "https://vicino-25e2d.firebaseio.com",
+    "project_id": "vicino-25e2d",
+    "storage_bucket": "vicino-25e2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991825965583:android:cebfb5f1195da424",
+        "android_client_info": {
+          "package_name": "com.vicino.vicino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991825965583-1gkkltqrsq3amhtam5ugiijj4pd8kkpg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vicino.vicino",
+            "certificate_hash": "c3e4b509473b2156b351d4f344911e4bd5be7ac8"
+          }
+        },
+        {
+          "client_id": "991825965583-la2ubmc9okmbkelcvmufuieehqupidka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUEaX5rKpJ2jOYAEm5D561AuuyUZCtibo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991825965583-la2ubmc9okmbkelcvmufuieehqupidka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

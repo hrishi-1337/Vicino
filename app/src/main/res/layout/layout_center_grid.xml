@@ -1,0 +1,32 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="3dp"
+            android:fadingEdge="none"
+            android:focusable="false"
+            android:gravity="center"
+            android:listSelector="#00000000"
+            android:layout_alignParentBottom="true">
+
+        </com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/gridProgressbar"/>
+
+    </RelativeLayout>
+
+
+
+</merge>
