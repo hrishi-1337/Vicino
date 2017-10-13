@@ -1,4 +1,4 @@
-package com.vicino.vicino.Login;
+package com.viscino.viscino.Login;
 
 import android.support.v7.app.AppCompatActivity;
 

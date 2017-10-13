@@ -1,4 +1,4 @@
-package com.vicino.vicino;
+package com.viscino.viscino;
 
 import org.junit.Test;
 

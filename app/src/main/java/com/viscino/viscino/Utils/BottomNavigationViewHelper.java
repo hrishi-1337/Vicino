@@ -1,4 +1,4 @@
-package com.vicino.vicino.Utils;
+package com.viscino.viscino.Utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +8,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.vicino.vicino.Home.HomeActivity;
-import com.vicino.vicino.Profile.ProfileActivity;
-import com.vicino.vicino.Search.SearchActivity;
-import com.vicino.vicino.R;
+import com.viscino.viscino.Home.HomeActivity;
+import com.viscino.viscino.Profile.ProfileActivity;
+import com.viscino.viscino.Search.SearchActivity;
+import com.viscino.viscino.R;
 
 /**
  * Created by j on 09-10-2017.

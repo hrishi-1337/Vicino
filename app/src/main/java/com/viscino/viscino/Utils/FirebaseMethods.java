@@ -1,4 +1,4 @@
-package com.vicino.vicino.Utils;
+package com.viscino.viscino.Utils;
 
 import android.content.Context;
 

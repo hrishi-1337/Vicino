@@ -1,4 +1,4 @@
-package com.vicino.vicino;
+package com.viscino.viscino;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -49,6 +49,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991825965583:android:0cdf56e91b10de98",
+        "android_client_info": {
+          "package_name": "com.viscino.viscino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991825965583-la2ubmc9okmbkelcvmufuieehqupidka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUEaX5rKpJ2jOYAEm5D561AuuyUZCtibo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

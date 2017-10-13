@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vicino.vicino">
+    package="com.viscino.viscino">
+
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -9,20 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.HomeActivity">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC8lZ_tFKey0ABRgrndqFfQ_6WnJhtQ6dg" />
+        <activity android:name="com.viscino.viscino.Home.HomeActivity"
+            android:theme="@style/noAnimTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Profile.ProfileActivity"></activity>
-        <activity android:name=".Search.SearchActivity"
+        <activity android:name="com.viscino.viscino.Profile.ProfileActivity"
+            android:theme="@style/noAnimTheme">
+        </activity>
+        <activity android:name="com.viscino.viscino.Search.SearchActivity"
+            android:theme="@style/noAnimTheme"
             android:windowSoftInputMode="adjustNothing">
         </activity>
-        <activity android:name=".Location.LocationActivity"></activity>
-        <activity android:name=".Shop.ShopActivity"></activity>
-        <activity android:name=".Login.LoginActivity"></activity>
+        <activity android:name="com.viscino.viscino.Location.LocationActivity"></activity>
+        <activity android:name="com.viscino.viscino.Shop.ShopActivity"></activity>
+        <activity android:name="com.viscino.viscino.Login.LoginActivity"></activity>
 
     </application>
 

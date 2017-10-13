@@ -1,4 +1,4 @@
-package com.vicino.vicino.Search;
+package com.viscino.viscino.Search;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.vicino.vicino.R;
-import com.vicino.vicino.Utils.BottomNavigationViewHelper;
+import com.viscino.viscino.R;
+import com.viscino.viscino.Utils.BottomNavigationViewHelper;
 
 /**
  * Created by j on 09-10-2017.

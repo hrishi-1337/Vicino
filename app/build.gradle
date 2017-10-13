@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.vicino.vicino"
+        applicationId "com.viscino.viscino"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -54,6 +54,12 @@ dependencies {
 
     //firebase firestore
     compile 'com.google.firebase:firebase-firestore:11.4.2'
+
+    //Universal image loader
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    //Annotations
+    compile 'org.jetbrains:annotations-java5:15.0'
 
 }
 

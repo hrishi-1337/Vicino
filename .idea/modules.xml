@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Vicino.iml" filepath="$PROJECT_DIR$/Vicino.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Viscino.iml" filepath="$PROJECT_DIR$/Viscino.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

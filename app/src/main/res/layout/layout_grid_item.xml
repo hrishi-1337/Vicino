@@ -5,16 +5,16 @@
     android:background="#fff">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/gridImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="#000"
-        android:transitionName="profile"
-        android:scaleType="centerCrop" />
+        android:background="#fff"
+        android:scaleType="centerCrop"
+        android:transitionName="profile" />
 
     <TextView
-        android:id="@+id/textview"
+        android:id="@+id/gridTextView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -23,9 +23,9 @@
         android:textColor="#fff" />
 
     <ProgressBar
+        android:id="@+id/gridProgressBar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:id="@+id/gridProgressbar"/>
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
