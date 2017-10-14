@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,10 +20,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.felipecsl.asymmetricgridview.library.Utils;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
@@ -38,7 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.viscino.viscino.Location.LocationActivity;
+import com.viscino.viscino.Map.MapActivity;
 import com.viscino.viscino.Models.GridItem;
 import com.viscino.viscino.Models.Shop;
 import com.viscino.viscino.R;
@@ -50,7 +55,7 @@ import com.viscino.viscino.Utils.UniversalImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.viscino.viscino.Location.LocationActivity.MY_PERMISSIONS_REQUEST_LOCATION;
+import static com.viscino.viscino.Map.MapActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 /**
  * Created by j on 10-10-2017.
@@ -76,6 +81,8 @@ public class HomeActivity extends AppCompatActivity
     private List<GridItem> items;
     private List<Shop> shops;
     private ProgressBar mProgressBar;
+    private RelativeLayout noInternet;
+    private Button tryAgain;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -89,6 +96,10 @@ public class HomeActivity extends AppCompatActivity
         Log.d(TAG, "onCreate: starting.");
         listView = (AsymmetricGridView) findViewById(R.id.listView);
         mProgressBar = (ProgressBar) findViewById(R.id.gridProgressBar);
+        noInternet = (RelativeLayout) findViewById(R.id.noInternet);
+        RelativeLayout gridLayout = (RelativeLayout) findViewById(R.id.relLayout2);
+        final PullRefreshLayout layout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        tryAgain = (Button) findViewById(R.id.tryAgain);
         items = new ArrayList<>();
         shops = new ArrayList<>();
         chosen = getIntent().getBooleanExtra("chosen", false);
@@ -110,6 +121,35 @@ public class HomeActivity extends AppCompatActivity
         setupBottomNavigationView();
         setupToolbar();
         buildGoogleApiClient();
+
+        if (!isNetworkAvailable()) {
+            mProgressBar.setVisibility(View.GONE);
+            gridLayout.setVisibility(View.GONE);
+            noInternet.setVisibility(View.VISIBLE);
+            tryAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }
+            });
+        }
+
+        layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                items.clear();
+                shops.clear();
+                mGoogleApiClient.reconnect();
+                layout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -121,7 +161,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: navigating to account settings.");
-                Intent intent = new Intent(mContext, LocationActivity.class);
+                Intent intent = new Intent(mContext, MapActivity.class);
                 startActivity(intent);
             }
         });
@@ -166,6 +206,7 @@ public class HomeActivity extends AppCompatActivity
                             for (DocumentSnapshot document : task.getResult()) {
                                 if(meterDistanceBetweenPoints(lat,lon,document.getDouble("Lat"),document.getDouble("Lng")) <= 5000) {
                                     Shop shop = document.toObject(Shop.class);
+                                    document.getId();
                                     shops.add(shop);
                                 }
                             }
@@ -269,6 +310,16 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        mProgressBar.setVisibility(View.GONE);
+        noInternet.setVisibility(View.VISIBLE);
+        tryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -350,4 +401,15 @@ public class HomeActivity extends AppCompatActivity
             }
         }
     }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Network is present and connected
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
+
 }

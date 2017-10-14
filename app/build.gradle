@@ -61,6 +61,9 @@ dependencies {
     //Annotations
     compile 'org.jetbrains:annotations-java5:15.0'
 
+    //PullRefreshlayout
+    compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
+
 }
 
 

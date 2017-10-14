@@ -1,4 +1,4 @@
-package com.viscino.viscino.Location;
+package com.viscino.viscino.Map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,17 +31,17 @@ import com.viscino.viscino.R;
  * Created by j on 10-10-2017.
  */
 
-public class LocationActivity extends AppCompatActivity
+public class MapActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,LocationListener,
         GoogleMap.OnMapClickListener {
 
-    private static final String TAG = "LocationActivity";
+    private static final String TAG = "MapActivity";
 
     private GoogleMap mGoogleMap;
     private GoogleApiClient mGoogleApiClient;
-    private Context mContext = LocationActivity.this;
+    private Context mContext = MapActivity.this;
     private double chosenLat,chosenLng;
 
     @Override
