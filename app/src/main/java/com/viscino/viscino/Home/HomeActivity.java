@@ -3,11 +3,13 @@ package com.viscino.viscino.Home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -32,10 +34,11 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -46,6 +49,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viscino.viscino.Map.MapActivity;
 import com.viscino.viscino.Models.GridItem;
 import com.viscino.viscino.Models.Shop;
+import com.viscino.viscino.Profile.LoginActivity;
 import com.viscino.viscino.R;
 import com.viscino.viscino.Utils.BottomNavigationViewHelper;
 import com.viscino.viscino.Utils.GridAdapter;
@@ -76,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
     private GridAdapter adapter;
 
     private GoogleApiClient mGoogleApiClient;
+    private FusedLocationProviderClient mFusedLocationClient;
     private double lat, lon;
 
     private List<GridItem> items;
@@ -85,8 +90,12 @@ public class HomeActivity extends AppCompatActivity
     private Button tryAgain;
 
     //firebase
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private SharedPreferences prefs;
+    private boolean firstRun;
 
 
     @Override
@@ -94,12 +103,24 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Log.d(TAG, "onCreate: starting.");
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        firstRun = prefs.getBoolean("FIRSTRUN", true);
+        if (firstRun)
+        {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            startActivity(intent);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("FIRSTRUN", false);
+            editor.apply();
+        }
         listView = (AsymmetricGridView) findViewById(R.id.listView);
         mProgressBar = (ProgressBar) findViewById(R.id.gridProgressBar);
         noInternet = (RelativeLayout) findViewById(R.id.noInternet);
         RelativeLayout gridLayout = (RelativeLayout) findViewById(R.id.relLayout2);
         final PullRefreshLayout layout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         tryAgain = (Button) findViewById(R.id.tryAgain);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        db = FirebaseFirestore.getInstance();
         items = new ArrayList<>();
         shops = new ArrayList<>();
         chosen = getIntent().getBooleanExtra("chosen", false);
@@ -135,19 +156,18 @@ public class HomeActivity extends AppCompatActivity
                 }
             });
         }
-
         layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                items.clear();
                 shops.clear();
-                mGoogleApiClient.reconnect();
+                items.clear();
+                getLocation();
                 layout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         layout.setRefreshing(false);
                     }
-                }, 2000);
+                }, 1000);
             }
         });
     }
@@ -162,6 +182,7 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 Log.d(TAG, "onClick: navigating to account settings.");
                 Intent intent = new Intent(mContext, MapActivity.class);
+                finishActivity(99);
                 startActivity(intent);
             }
         });
@@ -194,7 +215,6 @@ public class HomeActivity extends AppCompatActivity
     private void getShops() {
         Log.d(TAG, "getShops: Getting Shops");
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Shops")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -202,7 +222,6 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
                             for (DocumentSnapshot document : task.getResult()) {
                                 if(meterDistanceBetweenPoints(lat,lon,document.getDouble("Lat"),document.getDouble("Lng")) <= 5000) {
                                     Shop shop = document.toObject(Shop.class);
@@ -222,6 +241,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void displayGrid(List<Shop> shops) {
 
+        Log.e(TAG,"Displaying grid");
         int size = shops.size();
 
         int a[] = {4, 2, 2, 2, 2, 2, 3, 3, 2, 2, 4, 2, 2, 2, 3, 3};
@@ -230,23 +250,16 @@ public class HomeActivity extends AppCompatActivity
         for(Shop shop : shops) {
             if (j <= 15) {
                 GridItem item = new GridItem(a[j], a[j], i, shop.getName(), shop.getUrl());
-                //Log.e(TAG, a[j] + "," + a[j] + "," + i + "," + document.getString("Name") + "," + document.getString("Url"));
                 items.add(item);
                 j++;
             } else {
                 j = 1;
                 GridItem item = new GridItem(a[0], a[0], i, shop.getName(), shop.getUrl());
-                //Log.e(TAG, a[0] + "," + a[0] + "," + i + "," + document.getString("Name") + "," + document.getString("Url"));
                 items.add(item);
             }
         }
-
-
-        Log.e(TAG, lat+"  "+lon);
         mProgressBar.setVisibility(View.GONE);
         adapter.setItems(items);
-
-
     }
 
     private double meterDistanceBetweenPoints(double lat_a, double lng_a, double lat_b, double lng_b) {
@@ -280,7 +293,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        checkLocationPermission();
+       getLocation();
+        /*
         LocationRequest mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(10000);
@@ -299,7 +313,7 @@ public class HomeActivity extends AppCompatActivity
                 lon = mLastLocation.getLongitude();
             }
             getShops();
-        }
+        } */
 
     }
 
@@ -410,6 +424,27 @@ public class HomeActivity extends AppCompatActivity
             isAvailable = true;
         }
         return isAvailable;
+    }
+    private void getLocation(){
+        checkLocationPermission();
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+
+                        if (location != null) {
+                            if(chosen){
+                                lat = getIntent().getDoubleExtra("chosenLat", 0.0);
+                                lon = getIntent().getDoubleExtra("chosenLng", 0.0);
+                            }
+                            else{
+                                lat = location.getLatitude();
+                                lon = location.getLongitude();
+                            }
+                            getShops();
+                        }
+                    }
+                });
     }
 
 }

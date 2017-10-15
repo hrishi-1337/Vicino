@@ -32,13 +32,22 @@
         <activity android:name="com.viscino.viscino.Profile.ProfileActivity"
             android:theme="@style/noAnimTheme">
         </activity>
-        <activity android:name="com.viscino.viscino.Search.SearchActivity"
-            android:theme="@style/noAnimTheme"
-            android:windowSoftInputMode="adjustNothing">
+        <activity
+            android:name="com.viscino.viscino.Search.SearchActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/noAnimTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity android:name="com.viscino.viscino.Map.MapActivity"></activity>
         <activity android:name="com.viscino.viscino.Shop.ShopActivity"></activity>
-        <activity android:name="com.viscino.viscino.Login.LoginActivity"></activity>
+        <activity android:name="com.viscino.viscino.Profile.LoginActivity"></activity>
 
     </application>
 

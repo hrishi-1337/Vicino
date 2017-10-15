@@ -1,25 +1,33 @@
 package com.viscino.viscino.Search;
 
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.viscino.viscino.R;
+import com.viscino.viscino.Shop.ShopActivity;
 import com.viscino.viscino.Utils.BottomNavigationViewHelper;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by j on 09-10-2017.
@@ -31,61 +39,105 @@ public class SearchActivity extends AppCompatActivity {
 
     private Context mContext = SearchActivity.this;
 
-    private EditText mSearchParam;
+    //firebase
+    CollectionReference shopsRef ;
+    private FirebaseFirestore db;
+
+    SearchView searchView = null;
+
     private ListView mListView;
 
 
-    private List mList;
+    private ArrayList<String> mList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        mSearchParam = (EditText) findViewById(R.id.search);
         mListView = (ListView) findViewById(R.id.listView);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.searchToolBar);
+        setSupportActionBar(toolbar);
         Log.d(TAG, "onCreate: started.");
+        db = FirebaseFirestore.getInstance();
+        shopsRef = db.collection("Shops");
 
-        hideSoftKeyboard();
         setupBottomNavigationView();
-        initTextListener();
     }
 
-    private void initTextListener(){
-        Log.d(TAG, "initTextListener: initializing");
+    // Every time when you press search button on keypad an Activity is recreated which in turn calls this function
+    @Override
+    protected void onNewIntent(Intent intent) {
 
-        mList = new ArrayList<>();
-
-        mSearchParam.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            if (searchView != null) {
+                searchView.clearFocus();
             }
+            searchForMatch(query);
+        }
+    }
 
+    private void searchForMatch(String text) {
+
+        Log.e(TAG, " searching for match");
+        Query query = shopsRef.whereLessThanOrEqualTo("name", text);
+        query.get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+
+                    for (DocumentSnapshot document :documentSnapshots) {
+                        document.getId();
+                        mList.add(document.getString("Name"));
+                        Log.e(TAG, "name ="+document.getString("Name"));
+                    }
+                    if(mList !=null) {
+                        updateList();
+                    }
+                }
+            });
+    }
+    private void updateList(){
+        Log.e(TAG, "updateUsersList: updating list");
+
+        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mList));
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                String text = mSearchParam.getText().toString().toLowerCase(Locale.getDefault());
-                searchForMatch(text);
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                String name = mList.get(position);
+                Intent intent = new Intent(SearchActivity.this, ShopActivity.class);
+                intent.putExtra("name",name);
+                startActivity(intent);
             }
         });
     }
 
-    private void searchForMatch(String text) {
-    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-    private void hideSoftKeyboard(){
-        if(getCurrentFocus() != null){
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+        // adds item to action bar
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        // Get Search item from action bar and Get Search service
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) SearchActivity.this.getSystemService(Context.SEARCH_SERVICE);
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
         }
-    }
-    
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(SearchActivity.this.getComponentName()));
+            searchView.setIconified(false);
+        }
 
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
+    }
     /**
      * BottomNavigationView setup
      */

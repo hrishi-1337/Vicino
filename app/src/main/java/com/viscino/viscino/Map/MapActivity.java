@@ -66,6 +66,7 @@ public class MapActivity extends AppCompatActivity
             public void onClick(View v) {
                 Log.d(TAG, "onClick: navigating back to 'HomeActivity'");
                 Intent intent = new Intent(mContext, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 LatLng mPosition = mGoogleMap.getCameraPosition().target;
                 chosenLat = mPosition.latitude;
                 chosenLng = mPosition.longitude;

@@ -8,23 +8,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/Bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/relLayout1">
+            android:layout_height="50dp"
+            android:background="@color/white">
 
-            <include layout="@layout/snippet_searchbar"/>
-        </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchToolBar"/>
 
+        </android.support.design.widget.AppBarLayout>
 
         <ListView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/listView"
-            android:layout_below="@+id/relLayout1">
-
+            android:layout_below="@+id/Bar"
+            android:isScrollContainer="false">
         </ListView>
-
     </RelativeLayout>
 
     <include layout="@layout/layout_bottom_navigation_view"/>

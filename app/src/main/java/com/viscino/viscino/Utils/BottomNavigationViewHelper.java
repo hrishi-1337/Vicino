@@ -37,6 +37,7 @@ public class BottomNavigationViewHelper {
 
                     case R.id.ic_near_me:
                         Intent intent1 = new Intent(context, HomeActivity.class);//ACTIVITY_NUM = 0
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent1);
                         break;
 

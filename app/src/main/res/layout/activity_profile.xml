@@ -4,6 +4,16 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <Button
+        android:id="@+id/login"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:background="#3f51b5"
+        android:text="@string/login"
+        android:textColor="#fff"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
     <include layout="@layout/layout_bottom_navigation_view"/>
