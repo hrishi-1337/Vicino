@@ -55,6 +55,9 @@ dependencies {
     //firebase firestore
     compile 'com.google.firebase:firebase-firestore:11.4.2'
 
+    //firebase deep linking
+    compile 'com.google.firebase:firebase-invites:11.4.2'
+
     //Universal image loader
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
@@ -63,6 +66,9 @@ dependencies {
 
     //PullRefreshlayout
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
+
+    //RecyclerView
+    compile 'com.android.support:recyclerview-v7:25.3.1'
 
 }
 

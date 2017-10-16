@@ -1,25 +1,23 @@
 package com.viscino.viscino.Models;
 
 /**
- * Created by j on 13-10-2017.
+ * Created by j on 16-10-2017.
  */
 
-public class Shop {
+public class Product {
 
     private String id;
     private String Name;
     private String Url;
-    private double Lat;
-    private double Lng;
-    public Shop(){
+    private double Price;
+    public Product(){
     }
-    public Shop(String id,String name,String url,double lat,double lng){
+    public Product(String id,String name,String url,double price){
 
         this.id=id;
         this.Name=name;
         this.Url=url;
-        this.Lat=lat;
-        this.Lng=lng;
+        this.Price=price;
     }
     public void setId(String id) {
         this.id = id;
@@ -30,11 +28,8 @@ public class Shop {
     public void setUrl(String url) {
         this.Url = url;
     }
-    public void setLat(double lat) {
-        this.Lat=lat;
-    }
-    public void setLng(double lng) {
-        this.Lng=lng;
+    public void setLat(double price) {
+        this.Price =price;
     }
     public String getid() {
         return id;
@@ -45,10 +40,7 @@ public class Shop {
     public String getUrl() {
         return Url;
     }
-    public double getLat() {
-        return Lat;
-    }
-    public double getLng() {
-        return Lng;
+    public double getPrice() {
+        return Price;
     }
 }

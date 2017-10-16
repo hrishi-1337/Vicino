@@ -224,8 +224,8 @@ public class HomeActivity extends AppCompatActivity
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 if(meterDistanceBetweenPoints(lat,lon,document.getDouble("Lat"),document.getDouble("Lng")) <= 5000) {
-                                    Shop shop = document.toObject(Shop.class);
-                                    document.getId();
+                                    //Shop shop = document.toObject(Shop.class);
+                                    Shop shop = new Shop(document.getId(),document.getString("Name"),document.getString("Url"),document.getDouble("Lat"),document.getDouble("Lng"));
                                     shops.add(shop);
                                 }
                             }
@@ -249,12 +249,12 @@ public class HomeActivity extends AppCompatActivity
         int i = 0;
         for(Shop shop : shops) {
             if (j <= 15) {
-                GridItem item = new GridItem(a[j], a[j], i, shop.getName(), shop.getUrl());
+                GridItem item = new GridItem(a[j], a[j], i,shop.getid(), shop.getName(), shop.getUrl());
                 items.add(item);
                 j++;
             } else {
                 j = 1;
-                GridItem item = new GridItem(a[0], a[0], i, shop.getName(), shop.getUrl());
+                GridItem item = new GridItem(a[0], a[0], i,shop.getid(), shop.getName(), shop.getUrl());
                 items.add(item);
             }
         }
@@ -294,27 +294,6 @@ public class HomeActivity extends AppCompatActivity
     public void onConnected(@Nullable Bundle bundle) {
 
        getLocation();
-        /*
-        LocationRequest mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(10000);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
-
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-
-            if(chosen){
-                lat = getIntent().getDoubleExtra("chosenLat", 0.0);
-                lon = getIntent().getDoubleExtra("chosenLng", 0.0);
-            }
-            else{
-                lat = mLastLocation.getLatitude();
-                lon = mLastLocation.getLongitude();
-            }
-            getShops();
-        } */
-
     }
 
     @Override

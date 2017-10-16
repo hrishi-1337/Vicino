@@ -46,7 +46,15 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name="com.viscino.viscino.Map.MapActivity"></activity>
-        <activity android:name="com.viscino.viscino.Shop.ShopActivity"></activity>
+        <activity android:name="com.viscino.viscino.Shop.ShopActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="example.com" android:scheme="http"/>
+                <data android:host="example.com" android:scheme="https"/>
+            </intent-filter>
+        </activity>
         <activity android:name="com.viscino.viscino.Profile.LoginActivity"></activity>
 
     </application>

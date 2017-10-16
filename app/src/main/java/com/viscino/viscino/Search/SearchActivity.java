@@ -60,6 +60,7 @@ public class SearchActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
         db = FirebaseFirestore.getInstance();
         shopsRef = db.collection("Shops");
+        mList = new ArrayList<>();
 
         setupBottomNavigationView();
     }
@@ -80,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
     private void searchForMatch(String text) {
 
         Log.e(TAG, " searching for match");
-        Query query = shopsRef.whereLessThanOrEqualTo("name", text);
+        Query query = shopsRef.whereEqualTo("Name", text);
         query.get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
@@ -93,6 +94,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                     if(mList !=null) {
                         updateList();
+                        Log.e(TAG,"No match");
                     }
                 }
             });

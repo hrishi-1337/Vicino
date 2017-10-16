@@ -15,22 +15,24 @@ public class GridItem implements AsymmetricItem {
     private int columnSpan;
     private int rowSpan;
     private int position;
-    public String text;
-    public String url;
+    private String id;
+    private String text;
+    private String url;
 
     public GridItem() {
-        this(1, 1, 0,"","");
+        this(1, 1, 0,"","","");
     }
 
-    public GridItem(int columnSpan, int rowSpan, int position, String text, String url) {
+    public GridItem(int columnSpan, int rowSpan, int position,String id, String text, String url) {
         this.columnSpan = columnSpan;
         this.rowSpan = rowSpan;
         this.position = position;
+        this.id = id;
         this.text = text;
         this.url = url;
     }
 
-    public GridItem(Parcel in) {
+    private GridItem(Parcel in) {
         readFromParcel(in);
     }
 
@@ -42,6 +44,10 @@ public class GridItem implements AsymmetricItem {
         return rowSpan;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getText() {
         return text;
     }
@@ -51,7 +57,7 @@ public class GridItem implements AsymmetricItem {
     }
 
     @Override public String toString() {
-        return String.format("%s: %sx%s", position, rowSpan, columnSpan,text,url);
+        return String.format("%s: %sx%s", position, rowSpan, columnSpan,id,text,url);
     }
 
     @Override public int describeContents() {

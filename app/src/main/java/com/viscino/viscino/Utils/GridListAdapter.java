@@ -63,7 +63,7 @@ public class GridListAdapter extends ArrayAdapter<GridItem> implements GridAdapt
 
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.layout_grid_item , parent, false);
+            convertView = layoutInflater.inflate(R.layout.adapter_grid_item, parent, false);
             holder = new ViewHolder();
             holder.mProgressBar = (ProgressBar) convertView.findViewById(R.id.gridProgressBar);
             holder.image = (ImageView) convertView.findViewById(R.id.gridImageView);
@@ -77,6 +77,7 @@ public class GridListAdapter extends ArrayAdapter<GridItem> implements GridAdapt
         }
         final String name = item.getText();
         final String imgURL = item.getUrl();
+        final String id = item.getId();
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -147,6 +148,7 @@ public class GridListAdapter extends ArrayAdapter<GridItem> implements GridAdapt
                         Intent intent = new Intent(getContext(), ShopActivity.class);
                         intent.putExtra("name", name);
                         intent.putExtra("url", imgURL);
+                        intent.putExtra("id", id);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) getContext(),  holder.image, "profile");
                         getContext().startActivity(intent, options.toBundle());
                         break;
