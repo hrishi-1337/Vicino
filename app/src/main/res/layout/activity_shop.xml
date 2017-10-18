@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="325dp"
+        android:layout_height="225dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -19,6 +20,7 @@ android:layout_height="match_parent">
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+
             <ImageView
                 android:id="@+id/header"
                 android:layout_width="match_parent"
@@ -27,7 +29,6 @@ android:layout_height="match_parent">
                 android:scaleType="centerCrop"
                 android:transitionName="profile"
                 app:layout_collapseMode="parallax" />
-
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_flexible_space"
@@ -39,49 +40,109 @@ android:layout_height="match_parent">
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout
-        android:id="@+id/relLayout1"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/direction"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/collapsing_toolbar"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <RelativeLayout
-            android:id="@+id/relLayout2"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_directions"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
+
+    <android.support.v4.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_below="@id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/offWhite"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:elevation="5dp"
+                android:orientation="vertical"
+                android:paddingBottom="5dp">
+
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/timings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/open"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textSize="12sp" />
+
+
+                <Button
+                    android:id="@+id/call"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="@string/call" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:elevation="5dp">
+
 
             <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
+                android:id="@+id/inventory"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:text="608 N Main St,Le Roy, KS 66857"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/inventory"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/rating"
-                android:layout_width="wrap_content"
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:layout_below="@id/address"
-                android:text="Rating"/>
-        </RelativeLayout>
+                android:background="#fff"
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fff"
-            android:scrollbars="vertical"
-            android:layout_below="@id/relLayout2"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_alignParentStart="true" />
+        </LinearLayout>
+        </LinearLayout>
 
-    </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

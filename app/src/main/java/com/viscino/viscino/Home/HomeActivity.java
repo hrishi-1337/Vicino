@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -136,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
         listView.setRequestedHorizontalSpacing(Utils.dpToPx(mContext, 3));
         listView.setAdapter(getNewAdapter());
         listView.setDebugging(true);
-        listView.setNestedScrollingEnabled(true);
+        listView.setOnItemClickListener(this);
 
         initImageLoader();
         setupBottomNavigationView();
@@ -176,16 +175,32 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.homeToolBar);
         setSupportActionBar(toolbar);
 
-        ImageView profileMenu = (ImageView) findViewById(R.id.homeMenu);
-        profileMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: navigating to account settings.");
-                Intent intent = new Intent(mContext, MapActivity.class);
-                finishActivity(99);
-                startActivity(intent);
-            }
-        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.location) {
+            Log.d(TAG, "onClick: navigating to Map Activity");
+            Intent intent = new Intent(mContext, MapActivity.class);
+            finishActivity(99);
+            startActivity(intent);
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initImageLoader() {

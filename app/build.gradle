@@ -70,7 +70,8 @@ dependencies {
     //RecyclerView
     compile 'com.android.support:recyclerview-v7:25.3.1'
 
+    //Palette
+    compile 'com.android.support:palette-v7:25.3.1'
 }
-
 
 apply plugin: 'com.google.gms.google-services'

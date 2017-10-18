@@ -22,7 +22,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC8lZ_tFKey0ABRgrndqFfQ_6WnJhtQ6dg" />
         <activity android:name="com.viscino.viscino.Home.HomeActivity"
-            android:theme="@style/noAnimTheme">
+            android:theme="@style/noAnimTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,12 +31,14 @@
             </intent-filter>
         </activity>
         <activity android:name="com.viscino.viscino.Profile.ProfileActivity"
-            android:theme="@style/noAnimTheme">
+            android:theme="@style/noAnimTheme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.viscino.viscino.Search.SearchActivity"
             android:launchMode="singleTop"
-            android:theme="@style/noAnimTheme">
+            android:theme="@style/noAnimTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <action android:name="android.intent.action.VIEW" />
@@ -45,8 +48,11 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.viscino.viscino.Map.MapActivity"></activity>
-        <activity android:name="com.viscino.viscino.Shop.ShopActivity">
+        <activity android:name="com.viscino.viscino.Map.MapActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.viscino.viscino.Shop.ShopActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TransparentStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -55,8 +61,8 @@
                 <data android:host="example.com" android:scheme="https"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.viscino.viscino.Profile.LoginActivity"></activity>
-
+        <activity android:name="com.viscino.viscino.Profile.LoginActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

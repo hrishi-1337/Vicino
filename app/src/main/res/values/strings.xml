@@ -9,4 +9,7 @@
     <string name="hint_verification_code">Verification Code</string>
     <string name="logout">Sign Out</string>
     <string name="login">Sign In</string>
+    <string name="select">Select</string>
+    <string name="inventory">INVENTORY</string>
+    <string name="call">Call</string>
 </resources>

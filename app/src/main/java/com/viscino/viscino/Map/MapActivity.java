@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,39 +45,61 @@ public class MapActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private Context mContext = MapActivity.this;
     private double chosenLat,chosenLng;
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location);
+        setContentView(R.layout.activity_map);
         SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
 
-        ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
+        setupToolbar();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mapToolBar);
+        setSupportActionBar(toolbar);
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: navigating back to 'HomeActivity'");
-                finish();
+                onBackPressed();
             }
         });
-        TextView select = (TextView) findViewById(R.id.select);
-        select.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: navigating back to 'HomeActivity'");
-                Intent intent = new Intent(mContext, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                LatLng mPosition = mGoogleMap.getCameraPosition().target;
-                chosenLat = mPosition.latitude;
-                chosenLng = mPosition.longitude;
-                intent.putExtra("chosenLat",chosenLat);
-                intent.putExtra("chosenLng",chosenLng);
-                intent.putExtra("chosen",true);
-                startActivity(intent);
-            }
-        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.map_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.select) {
+            Log.d(TAG, "onClick: navigating back to 'HomeActivity'");
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            LatLng mPosition = mGoogleMap.getCameraPosition().target;
+            chosenLat = mPosition.latitude;
+            chosenLng = mPosition.longitude;
+            intent.putExtra("chosenLat",chosenLat);
+            intent.putExtra("chosenLng",chosenLng);
+            intent.putExtra("chosen",true);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

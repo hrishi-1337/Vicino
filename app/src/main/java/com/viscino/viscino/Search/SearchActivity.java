@@ -81,6 +81,7 @@ public class SearchActivity extends AppCompatActivity {
     private void searchForMatch(String text) {
 
         Log.e(TAG, " searching for match");
+        mList.clear();
         Query query = shopsRef.whereEqualTo("Name", text);
         query.get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
