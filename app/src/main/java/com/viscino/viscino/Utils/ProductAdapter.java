@@ -130,7 +130,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
                                 scaleDown2.start();
                             }
-                        }, 300);
+                        }, 200);
 
                         break;
                 }
@@ -153,9 +153,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         ProgressBar mProgressBar;
         ViewHolder(View v) {
             super(v);
-            myTextView = (TextView) v.findViewById(R.id.textView);
-            myImageView = (ImageView) v.findViewById(R.id.imageView);
-            mProgressBar = (ProgressBar) v.findViewById(R.id.productProgressBar);
+            myTextView = v.findViewById(R.id.textView);
+            myImageView = v.findViewById(R.id.imageView);
+            mProgressBar = v.findViewById(R.id.productProgressBar);
             v.setOnClickListener(this);
         }
 

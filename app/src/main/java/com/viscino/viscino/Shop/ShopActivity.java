@@ -1,6 +1,5 @@
 package com.viscino.viscino.Shop;
 
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -81,16 +80,16 @@ public class ShopActivity extends AppCompatActivity {
         Log.e(TAG,"onCreate");
 
         setContentView(R.layout.activity_shop);
-        header = (ImageView) findViewById(R.id.header);
-        toolbarFlexibleSpace = (Toolbar) findViewById(R.id.toolbar_flexible_space);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        directions = (FloatingActionButton) findViewById(R.id.direction);
-        address =(TextView) findViewById(R.id.address);
-        timings =(TextView) findViewById(R.id.timings);
-        open =(TextView) findViewById(R.id.open);
-        call = (Button) findViewById(R.id.call);
+        header = findViewById(R.id.header);
+        toolbarFlexibleSpace = findViewById(R.id.toolbar_flexible_space);
+        collapsingToolbar = findViewById(R.id.collapsing_toolbar);
+        directions = findViewById(R.id.direction);
+        address = findViewById(R.id.address);
+        timings = findViewById(R.id.timings);
+        open = findViewById(R.id.open);
+        call = findViewById(R.id.call);
         db = FirebaseFirestore.getInstance();
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = findViewById(R.id.my_recycler_view);
         products = new ArrayList<>();
         name = getIntent().getStringExtra("name");
         url = getIntent().getStringExtra("url");
@@ -117,8 +116,8 @@ public class ShopActivity extends AppCompatActivity {
 
         Palette.from(imageLoader.loadImageSync(url)).generate(new Palette.PaletteAsyncListener() {
             public void onGenerated(Palette palette) {
-                int mutedColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-                int mutedDarkColor = palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
+                //int mutedColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                //int mutedDarkColor = palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
                 int vibrantColor = palette.getVibrantColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                 collapsingToolbar.setContentScrimColor(vibrantColor);
                 collapsingToolbar.setStatusBarScrimColor(vibrantColor);
@@ -205,7 +204,7 @@ public class ShopActivity extends AppCompatActivity {
                 .buildDynamicLink();
 
         Uri dynamicLinkUri = dynamicLink.getUri();
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        //ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         //ClipData clip = ClipData.newPlainText(TAG, (CharSequence) dynamicLinkUri);
         //clipboard.setPrimaryClip(clip);
 

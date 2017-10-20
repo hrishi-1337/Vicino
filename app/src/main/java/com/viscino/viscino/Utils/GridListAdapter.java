@@ -58,9 +58,6 @@ public class GridListAdapter extends ArrayAdapter<GridItem> implements GridAdapt
 
 
         GridItem item = getItem(position);
-
-
-
         final ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.adapter_grid_item, parent, false);
@@ -111,7 +108,6 @@ public class GridListAdapter extends ArrayAdapter<GridItem> implements GridAdapt
             }
         });
 
-
         holder.image.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -136,21 +132,20 @@ public class GridListAdapter extends ArrayAdapter<GridItem> implements GridAdapt
                                 v, "scaleX", 1f);
                         ObjectAnimator scaleDownY2 = ObjectAnimator.ofFloat(
                                 v, "scaleY", 1f);
-                        scaleDownX2.setDuration(200);
-                        scaleDownY2.setDuration(200);
+                        //scaleDownX2.setDuration(200);
+                        //scaleDownY2.setDuration(200);
 
                         AnimatorSet scaleDown2 = new AnimatorSet();
                         scaleDown2.play(scaleDownX2).with(scaleDownY2);
 
                         scaleDown2.start();
-
-                        //v.setEnabled(false);
                         Intent intent = new Intent(getContext(), ShopActivity.class);
                         intent.putExtra("name", name);
                         intent.putExtra("url", imgURL);
                         intent.putExtra("id", id);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) getContext(),  holder.image, "profile");
                         getContext().startActivity(intent, options.toBundle());
+
                         break;
                 }
                 return true;

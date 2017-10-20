@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
     private TextView mSkip;
+    private RelativeLayout mLogin,mVerifying,mResend;
     private EditText mPhoneNumberField, mVerificationField;
     private Button mStartButton, mResendButton;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
@@ -63,6 +65,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mVerificationField = (EditText) findViewById(R.id.field_verification_code);
         mStartButton = (Button) findViewById(R.id.button_start_verification);
         mResendButton = (Button) findViewById(R.id.button_resend);
+        mLogin = findViewById(R.id.loginLayout);
+        mResend = findViewById(R.id.resendLayout);
+        mVerifying = findViewById(R.id.verifyingLayout);
 
         mSkip = (TextView) findViewById(R.id.skip);
 
@@ -158,9 +163,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 } else {
                     startPhoneNumberVerification(mPhoneNumberField.getText().toString());
-                    mPhoneNumberField.setVisibility(View.GONE);
-                    mStartButton.setVisibility(View.GONE);
-                    mResendButton.setVisibility(View.VISIBLE);
+                    mLogin.setVisibility(View.GONE);
+                    mVerifying.setVisibility(View.VISIBLE);
+                    mResend.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.button_resend:

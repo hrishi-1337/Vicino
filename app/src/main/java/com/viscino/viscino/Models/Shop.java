@@ -36,7 +36,7 @@ public class Shop {
     public void setLng(double lng) {
         this.Lng=lng;
     }
-    public String getid() {
+    public String getId() {
         return id;
     }
     public String getName() {

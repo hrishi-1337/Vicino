@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -39,7 +38,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -65,8 +63,7 @@ import static com.viscino.viscino.Map.MapActivity.MY_PERMISSIONS_REQUEST_LOCATIO
  */
 
 public class HomeActivity extends AppCompatActivity
-        implements AdapterView.OnItemClickListener,
-        GoogleApiClient.ConnectionCallbacks,
+        implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final String TAG = "HomeActivity";
@@ -90,20 +87,14 @@ public class HomeActivity extends AppCompatActivity
 
     //firebase
     private FirebaseFirestore db;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private SharedPreferences prefs;
-    private boolean firstRun;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Log.d(TAG, "onCreate: starting.");
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        firstRun = prefs.getBoolean("FIRSTRUN", true);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstRun = prefs.getBoolean("FIRSTRUN", true);
         if (firstRun)
         {
             Intent intent = new Intent(mContext, LoginActivity.class);
@@ -112,12 +103,12 @@ public class HomeActivity extends AppCompatActivity
             editor.putBoolean("FIRSTRUN", false);
             editor.apply();
         }
-        listView = (AsymmetricGridView) findViewById(R.id.listView);
-        mProgressBar = (ProgressBar) findViewById(R.id.gridProgressBar);
-        noInternet = (RelativeLayout) findViewById(R.id.noInternet);
-        RelativeLayout gridLayout = (RelativeLayout) findViewById(R.id.relLayout2);
-        final PullRefreshLayout layout = (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        tryAgain = (Button) findViewById(R.id.tryAgain);
+        listView = findViewById(R.id.listView);
+        mProgressBar = findViewById(R.id.gridProgressBar);
+        noInternet = findViewById(R.id.noInternet);
+        RelativeLayout gridLayout = findViewById(R.id.relLayout2);
+        final PullRefreshLayout layout = findViewById(R.id.swipeRefreshLayout);
+        tryAgain = findViewById(R.id.tryAgain);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         db = FirebaseFirestore.getInstance();
         items = new ArrayList<>();
@@ -134,8 +125,9 @@ public class HomeActivity extends AppCompatActivity
         listView.setRequestedColumnCount(6);
         listView.setRequestedHorizontalSpacing(Utils.dpToPx(mContext, 3));
         listView.setAdapter(getNewAdapter());
-        listView.setDebugging(true);
-        listView.setOnItemClickListener(this);
+        //listView.setDebugging(true);
+        //listView.setAllowReordering(true);
+        //listView.isAllowReordering();
 
         initImageLoader();
         setupBottomNavigationView();
@@ -172,7 +164,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.homeToolBar);
+        Toolbar toolbar = findViewById(R.id.homeToolBar);
         setSupportActionBar(toolbar);
 
     }
@@ -186,12 +178,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.location) {
             Log.d(TAG, "onClick: navigating to Map Activity");
             Intent intent = new Intent(mContext, MapActivity.class);
@@ -213,18 +200,12 @@ public class HomeActivity extends AppCompatActivity
      */
     private void setupBottomNavigationView() {
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
         BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
         menuItem.setChecked(true);
-    }
-
-    @Override
-    public void onItemClick(@NonNull AdapterView<?> parent, @NonNull View view, int position, long id) {
-        Toast.makeText(this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
-        Log.e(TAG, "Item " + position + " clicked");
     }
 
     private void getShops() {
@@ -264,12 +245,12 @@ public class HomeActivity extends AppCompatActivity
         int i = 0;
         for(Shop shop : shops) {
             if (j <= 15) {
-                GridItem item = new GridItem(a[j], a[j], i,shop.getid(), shop.getName(), shop.getUrl());
+                GridItem item = new GridItem(a[j], a[j], i,shop.getId(), shop.getName(), shop.getUrl());
                 items.add(item);
                 j++;
             } else {
                 j = 1;
-                GridItem item = new GridItem(a[0], a[0], i,shop.getid(), shop.getName(), shop.getUrl());
+                GridItem item = new GridItem(a[0], a[0], i,shop.getId(), shop.getName(), shop.getUrl());
                 items.add(item);
             }
         }
@@ -278,7 +259,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private double meterDistanceBetweenPoints(double lat_a, double lng_a, double lat_b, double lng_b) {
-        double pk = (double) (180.f/Math.PI);
+        double pk = 180.f/Math.PI;
 
         double a1 = lat_a / pk;
         double a2 = lng_a / pk;

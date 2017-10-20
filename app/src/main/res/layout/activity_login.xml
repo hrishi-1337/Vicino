@@ -1,84 +1,135 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical"
     tools:context="com.viscino.viscino.Profile.LoginActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="194dp"
-        app:srcCompat="@drawable/ic_logo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="150dp"
+        android:layout_marginTop="80dp"
+        app:srcCompat="@drawable/logo" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:id="@+id/relativeLayout"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/logo">
 
-        <Button
-            android:id="@+id/button_start_verification"
+        <RelativeLayout
+            android:id="@+id/loginLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:text="@string/start_phone_auth"
-            android:visibility="visible"
-            android:layout_marginTop="66dp"
-            android:layout_below="@+id/field_phone_number"
-            android:layout_alignParentStart="true" />
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/verifyingLayout"
+            android:visibility="visible">
 
-        <EditText
-            android:id="@+id/field_verification_code"
+            <Button
+                android:id="@+id/button_start_verification"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/field_phone_number"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="66dp"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/start_phone_auth" />
+
+            <EditText
+                android:id="@+id/field_phone_number"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:hint="@string/hint_phone_number"
+                android:inputType="phone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/verifyingLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="11dp"
-            android:hint="@string/hint_verification_code"
-            android:inputType="number"
-            android:visibility="gone" />
+            android:layout_alignParentRight="true"
+            android:visibility="gone">
 
-        <EditText
-            android:id="@+id/field_phone_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:hint="@string/hint_phone_number"
-            android:inputType="phone"
-            android:visibility="visible" />
 
-        <Button
-            android:id="@+id/button_resend"
+            <TextView
+                android:id="@+id/verifying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/verifying"
+                android:textSize="30sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_above="@+id/verifying"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/resendLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="164dp"
-            android:layout_weight="1.0"
-            android:elevation="0dp"
-            android:text="@string/resend_phone_auth"
-            android:visibility="gone" />
+            android:layout_below="@+id/loginLayout"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/field_verification_code"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:hint="@string/hint_verification_code"
+                android:inputType="number"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_resend"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="26dp"
+                android:text="@string/resend_phone_auth" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="57dp"
-        android:elevation="5dp"
-        android:text="SKIP"
-        android:textSize="20sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/relativeLayout" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="26dp"
+            android:layout_marginRight="26dp"
+            android:layout_marginTop="38dp"
+            android:elevation="5dp"
+            android:padding="20dp"
+            android:text="SKIP"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -5,14 +5,26 @@
     android:background="#fff"
     android:padding="10dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textView">
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="#000"
-        android:scaleType="centerCrop"
-        android:layout_above="@+id/textView" />
+        android:scaleType="centerCrop" />
+
+        <ProgressBar
+            android:id="@+id/productProgressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -23,10 +35,6 @@
         android:gravity="center"
         android:textColor="#000" />
 
-    <ProgressBar
-        android:id="@+id/productProgressBar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true" />
+
 
 </RelativeLayout>

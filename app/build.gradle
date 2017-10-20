@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.viscino.viscino"
-        minSdkVersion 21
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -25,12 +25,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
     //Design library for Coordinator Layout and Toolbars
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:26.1.0'
 
     //BottomNavigationViewEx library
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.1.9'
@@ -68,10 +68,10 @@ dependencies {
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
 
     //RecyclerView
-    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
 
     //Palette
-    compile 'com.android.support:palette-v7:25.3.1'
+    compile 'com.android.support:palette-v7:26.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
